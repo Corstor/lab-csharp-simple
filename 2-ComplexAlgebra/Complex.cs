@@ -1,3 +1,7 @@
+using System;
+using System.Threading;
+using static System.Math;
+
 namespace ComplexAlgebra
 {
     /// <summary>
@@ -17,6 +21,80 @@ namespace ComplexAlgebra
     /// TODO:     - e.g. via the Equals(object) method
     public class Complex
     {
-        // TODO: fill this class\
+        public double Real { get; }
+        public double Imaginary { get; }
+
+        public Complex(double real, double imaginary)
+        {
+            this.Real = real;
+            this.Imaginary = imaginary;
+        }
+
+        public double Modulus => Sqrt(this.Real * this.Real + this.Imaginary * this.Imaginary);
+
+        public override string ToString() => this.Imaginary > 0 ? "" + this.Real + " +" + this.Imaginary + "i" : "" + this.Real + " " + this.Imaginary + "i";
+
+        private bool Equals(Complex other) => Real.Equals(other.Real) && Imaginary.Equals(other.Imaginary);
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+            
+            return Equals((Complex) obj);
+        }
+
+        public override int GetHashCode() => HashCode.Combine(Real, Imaginary);
+
+        public Complex Plus(Complex other) => new Complex(this.Real + other.Real, this.Imaginary + other.Imaginary);
+
+        public Complex Minus(Complex other) => new Complex(this.Real - other.Real, this.Imaginary - other.Imaginary);
+
+        public Complex Complement() => new Complex(this.Real, -this.Imaginary);
+        
+        public double Phase
+        {
+            get
+            {
+                if (Real.Equals(0))
+                {
+                    if (Imaginary.Equals(0))
+                    {
+                        return 0;
+                    }
+                    
+                    if (Imaginary > 0)
+                    {
+                        return PI / 2;
+                    }
+                
+                    return 3 * PI / 2;
+                }
+
+                if (Real > 0)
+                {
+                    if (Imaginary >= 0)
+                    {
+                        return Atan(Imaginary / Real);
+                    }
+                    
+                    return Atan(Imaginary / Real) + 2 * PI;
+                }
+
+                return Atan(Imaginary / Real) + PI;
+            }
+        }
     }
 }
