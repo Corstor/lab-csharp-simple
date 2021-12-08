@@ -1,3 +1,4 @@
+using System;
 using ComplexAlgebra;
 
 namespace Calculus
@@ -27,6 +28,43 @@ namespace Calculus
         public const char OperationPlus = '+';
         public const char OperationMinus = '-';
 
-        // TODO fill this class
+        private Complex _lastValue;
+        private char? _operation;
+        
+        public Complex Value { get; set; }
+
+        public char? Operation
+        {
+            get => _operation;
+            
+            set
+            {
+                _lastValue = Operate(_lastValue, Value);
+                Value = null;
+                _operation = value;
+            }
+        }
+
+        public Calculator()
+        {
+            Reset();
+        }
+        
+        public override string ToString() => (Value == null ? "null" : Value.ToString()) + ", " + (Operation == null ? "null" : Operation.ToString());
+
+        public void ComputeResult()
+        {
+            Value = Operate(_lastValue, Value);
+            _operation = null;
+        }
+
+        public void Reset()
+        {
+            _lastValue = null;
+            _operation = null;
+            Value = null;
+        }
+
+        private Complex Operate(Complex first, Complex second) => (first != null && second != null) ? ( Operation == OperationMinus ? first.Minus(second) : first.Plus(second) ) : second;
     }
 }
