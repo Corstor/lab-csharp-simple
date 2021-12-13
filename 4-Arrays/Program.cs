@@ -96,14 +96,14 @@ namespace Arrays
         /// TODO: implement this method
         public static string ArrayToString(Complex[] array)
         {
-            string toString = "";
+            string toString = "[";
             
             for (var i = 0; i < array.Length; i++)
             {
-                toString += array[i] + " ";
+                toString += array[i] + "; ";
             }
             
-            return toString; 
+            return toString + " ]"; 
         }
         
         /// <summary>
