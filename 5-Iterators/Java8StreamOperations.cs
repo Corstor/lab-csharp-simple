@@ -87,7 +87,12 @@ namespace Iterators
         /// <returns>the new sequence.</returns>
         public static IEnumerable<Tuple<int, TAny>> Indexed<TAny>(this IEnumerable<TAny> sequence)
         {
-            throw new NotImplementedException();
+            int i = 0;
+            
+            foreach (var elem in sequence)
+            {
+                yield return Tuple.Create(i++, elem);
+            }
         }
 
         /// <summary>
@@ -102,7 +107,23 @@ namespace Iterators
         /// <returns>the new sequence.</returns>
         public static TOther Reduce<TAny, TOther>(this IEnumerable<TAny> sequence, TOther seed, Func<TOther, TAny, TOther> reducer)
         {
-            throw new NotImplementedException();
+            bool first = true;
+            TOther accumulator = default;
+            
+            foreach (var elem in sequence)
+            {
+                if (first)
+                {
+                    first = false;
+                    accumulator = reducer(seed, elem);
+                }
+                else
+                {
+                    accumulator = reducer(accumulator, elem);
+                }
+            }
+
+            return accumulator;
         }
 
         /// <summary>
