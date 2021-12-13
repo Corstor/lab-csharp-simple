@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 
 namespace Iterators
 {
@@ -164,7 +165,15 @@ namespace Iterators
         /// <returns>the new sequence.</returns>
         public static IEnumerable<TAny> SkipSome<TAny>(this IEnumerable<TAny> sequence, long count)
         {
-            throw new NotImplementedException();
+            foreach (var elem in sequence)
+            {
+                count--;
+
+                if (count < 0)
+                {
+                    yield return elem;
+                }
+            }
         }
 
         /// <summary>
