@@ -39,22 +39,19 @@ namespace Calculus
             
             set
             {
-                _lastValue = Operate(_lastValue, Value);
+                _lastValue = Operate();
                 Value = null;
                 _operation = value;
             }
         }
 
-        public Calculator()
-        {
-            Reset();
-        }
+        public Calculator() => Reset();
         
         public override string ToString() => (Value == null ? "null" : Value.ToString()) + ", " + (Operation == null ? "null" : Operation.ToString());
 
         public void ComputeResult()
         {
-            Value = Operate(_lastValue, Value);
+            Value = Operate();
             _operation = null;
         }
 
@@ -65,6 +62,11 @@ namespace Calculus
             Value = null;
         }
 
-        private Complex Operate(Complex first, Complex second) => (first != null && second != null) ? ( Operation == OperationMinus ? first.Minus(second) : first.Plus(second) ) : second;
+        /// <summary>
+        /// If _lastValue and Value are not null values, then return the sum or subtraction of _lastValue +- Value,
+        /// otherwise return Value
+        /// </summary>
+        /// <returns>The result of the operation</returns>
+        private Complex Operate() => (_lastValue != null && Value != null) ? (Operation == OperationMinus ? _lastValue.Minus(Value) : _lastValue.Plus(Value)) : Value;
     }
 }
