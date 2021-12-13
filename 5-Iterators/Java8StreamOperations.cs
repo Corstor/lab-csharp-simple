@@ -188,7 +188,17 @@ namespace Iterators
         /// <returns>the new sequence.</returns>
         public static IEnumerable<TAny> TakeWhile<TAny>(this IEnumerable<TAny> sequence, Predicate<TAny> predicate)
         {
-            throw new NotImplementedException();
+            foreach (var elem in sequence)
+            {
+                if (predicate(elem))
+                {
+                    yield return elem;
+                }
+                else
+                {
+                    break;
+                }
+            }
         }
 
         /// <summary>
@@ -201,7 +211,15 @@ namespace Iterators
         /// <returns>the new sequence.</returns>
         public static IEnumerable<TAny> TakeSome<TAny>(this IEnumerable<TAny> sequence, long count)
         {
-            throw new NotImplementedException();
+            foreach (var elem in sequence)
+            {
+                if (count-- <= 0)
+                {
+                    break;
+                }
+                
+                yield return elem;
+            }
         }
 
         /// <summary>
