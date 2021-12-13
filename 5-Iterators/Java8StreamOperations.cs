@@ -1,3 +1,5 @@
+using System.Linq.Expressions;
+
 namespace Iterators
 {
     using System;
@@ -51,7 +53,10 @@ namespace Iterators
         /// <returns>the new sequence.</returns>
         public static IEnumerable<TOther> Map<TAny, TOther>(this IEnumerable<TAny> sequence, Func<TAny, TOther> mapper)
         {
-            throw new NotImplementedException();
+            foreach (var elem in sequence)
+            {
+                yield return mapper(elem);
+            }
         }
 
         /// <summary>
@@ -65,7 +70,13 @@ namespace Iterators
         /// <returns>the new sequence.</returns>
         public static IEnumerable<TAny> Filter<TAny>(this IEnumerable<TAny> sequence, Predicate<TAny> predicate)
         {
-            throw new NotImplementedException();
+            foreach (var elem in sequence)
+            {
+                if (predicate(elem))
+                {
+                    yield return elem;
+                }
+            }
         }
 
         /// <summary>
